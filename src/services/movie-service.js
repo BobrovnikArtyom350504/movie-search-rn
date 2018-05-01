@@ -13,6 +13,27 @@ export default class MovieService {
       });
   }
 
+  static getSortOptions() {
+    return [
+      {
+        label: 'popularity asc',
+        value: 'popularity.asc' 
+      },
+      {
+        label: 'popularity.desc',
+        value: 'popularity desc'
+      },
+      {
+        label: 'release_date.asc',
+        value: 'release date asc'
+      },
+      {
+        label: 'release_date.desc',
+        value: 'release date desc' 
+      }
+    ];
+  }
+
   static getMovieCredits(id) {
     return MovieDatabaseApi.getMovieCredits(id)
       .then(response => response)
@@ -67,8 +88,20 @@ export default class MovieService {
       });
   }
 
+  static searchCompanies(query) {
+    return MovieDatabaseApi.searchCompanies(query);
+  }
+
   static discoverMovies(filters, page = 1) {
-    return MovieDatabaseApi.discoverMovies(filters, page)
+    let selectedFilters = {};
+    Object.keys(filters).forEach(filterName => {
+        const value = filters[filterName];
+        if (value) {
+          selectedFilters[filterName] = value;
+        }
+    });
+
+    return MovieDatabaseApi.discoverMovies(selectedFilters, page)
       .then(response => {
         MovieService.decorateMovieList(response.results);
 

@@ -17,6 +17,8 @@ export default class MovieDatabaseRequestService {
     query = query ? `${query}&` : '';
     query += `api_key=${apiKey}`;
 
+    console.log(`${apiHost}/${apiVersion}/${path}?${query}`);
+
     return `${apiHost}/${apiVersion}/${path}?${query}`;
   }
 }

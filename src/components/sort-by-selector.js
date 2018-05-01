@@ -2,27 +2,18 @@ import React, {Component} from 'react';
 import {View, Text, Picker} from 'react-native';
 import MovieService from '../services/movie-service';
 
-export default class GenreFilter extends Component {
+export default class SortBySelector extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      options: [],
-      label: 'With Genre'
+      options: this.getOptions(),
+      label: 'Release date grater then'
     };
-
-    this.initOptions();
   }
 
-  initOptions() {
-     MovieService.getAllMovieGenres().then(genres => {
-       this.setState({
-         options: Object.keys(genres).map(genreId => ({
-           value: genreId,
-           label: genres[genreId]
-         }))
-       });
-     });
+  getOptions() {
+    return MovieService.getSortOptions();
   }
 
   render() {

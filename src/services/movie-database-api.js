@@ -9,6 +9,10 @@ export default class MovieDatabaseApi {
     return RequestService.sendGetRequest('search/movie', `page=${page}&query=${query}`);
   }
 
+  static searchCompanies(query) {
+    return RequestService.sendGetRequest('search/company', `query=${query}`);
+  }
+
   static discoverMovies(filters, page) {
     let query = `page=${page}`;
     Object.keys(filters).forEach(filterName => {
