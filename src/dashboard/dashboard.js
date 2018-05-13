@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import {View} from  'react-native';
+import {ScrollView, Text} from  'react-native';
+
+import baseStyles from '../common/styles';
 import MovieList from '../components/movie-list';
 import MovieService from '../services/movie-service';
 
@@ -29,17 +31,30 @@ export default class Dashboard extends Component {
 
   render() {
     return (
-      <View>
+      <ScrollView style={styles.container}>
+        <Text style={styles.title}>Most popular</Text>
         <MovieList navigation={this.props.navigation}
                    movies={this.state.mostPopularMovies}
                    isHorizontal={true} />
+        <Text style={styles.title}>Now playing</Text>
         <MovieList navigation={this.props.navigation}
                    movies={this.state.nowPlayingMovies}
                    isHorizontal={true} />
+        <Text style={styles.title}>Upcoming</Text>
         <MovieList navigation={this.props.navigation}
                    movies={this.state.upcomingMovies}
                    isHorizontal={true} />
-      </View>
+      </ScrollView>
     );
   }
 }
+
+styles = {
+  container: baseStyles.pageContainer,
+  title: {
+    fontSize: 24,
+    backgroundColor: '#CFD8DC',
+    color: '#37474F',
+    padding: 20
+  }
+};

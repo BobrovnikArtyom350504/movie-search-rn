@@ -80,14 +80,17 @@ export default class SearchPage extends Component {
 
   render() {
     return (
-      <View>
-        <View style={{paddingTop: 50}}>
+      <View style={styles.container}>
+        <View style={styles.searchBar}>
           <TextInput placeholder={'Search: '}
+                     style={styles.input}
                      onChangeText={text => {
                        this.setState({searchQuery: text})
                      }}/>
           <Button onPress={this.onSearchButtonPress}
-                  title={'Search'}/>
+                  style={styles.button}
+                  color={'#78909C'}
+                  title={'Search'} />
         </View>
         <MovieList movies={this.state.movies}
                    refreshing={this.state.refreshing}
@@ -97,3 +100,20 @@ export default class SearchPage extends Component {
     );
   }
 }
+
+const styles = {
+  container: {
+    paddingTop: 10
+  },
+  searchBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginVertical: 20
+  },
+  input: {
+    height: 30,
+    width: 200,
+    color: '#78909C'
+  }
+};

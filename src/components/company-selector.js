@@ -29,6 +29,7 @@ export default class ComponySelector extends Component {
   	return (
   		<View>
   			<TextInput placeholder={'Company: '}
+									 style={styles.input}
   					   onChangeText={query => {
   					   	 this.setState({query: query});
   					   	 this.fetchCompanies(query);
@@ -38,3 +39,10 @@ export default class ComponySelector extends Component {
   	);
   }
 }
+
+const styles = {
+  input: {
+    height: 30,
+    color: '#78909C'
+  },
+};

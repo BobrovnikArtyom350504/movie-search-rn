@@ -15,7 +15,8 @@ export default class CompanyFilter extends Component {
       <View>
         <Text>{this.state.label}</Text>
         <Picker selectedValue={this.props.selectedValue || ''}
-                onValueChange={this.props.onChange}>
+                onValueChange={this.props.onChange}
+                style={styles.picker}>
           {this.props.options.map((option, index)  => {
             return <Picker.Item key={index} label={option.label} value={option.value}/>;
           })}
@@ -24,3 +25,10 @@ export default class CompanyFilter extends Component {
     );
   }
 }
+
+const styles = {
+  picker: {
+    height: 30,
+    color: '#78909C'
+  },
+};

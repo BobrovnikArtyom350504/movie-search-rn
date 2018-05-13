@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, Picker} from 'react-native';
+
+import Filter from  './filter';
 import DateHelper from '../services/date-helper';
 
 export default class DateFilter extends Component {
@@ -26,7 +27,7 @@ export default class DateFilter extends Component {
     const lowestReleaseYear = 1980;
     const highestReleaseYear = new Date().getFullYear();
     let range = [];
-    for (let year = lowestReleaseYear; year < highestReleaseYear; year++) {
+    for (let year = lowestReleaseYear; year <= highestReleaseYear; year++) {
       range.push(year);
     }
 
@@ -34,16 +35,11 @@ export default class DateFilter extends Component {
   }
 
   render() {
-    return(
-      <View>
-        <Text>{this.state.label}</Text>
-        <Picker selectedValue={this.props.value || this.state.options[0].value}
-                onValueChange={this.props.onChange}>
-          {this.state.options.map((option, index)  => {
-            return <Picker.Item key={index} label={option.label} value={option.value}/>;
-          })}
-        </Picker>
-      </View>
-    );
+    const {label, options} = this.state;
+    const {onChange, selectedValue} = this.props;
+    return <Filter label={label}
+              options={options}
+              selectedValue={selectedValue}
+              onChange={onChange} />;
   }
 }

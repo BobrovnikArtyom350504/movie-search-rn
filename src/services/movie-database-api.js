@@ -46,4 +46,8 @@ export default class MovieDatabaseApi {
   static getPerson(personId) {
     return RequestService.sendGetRequest(`person/${personId}`);
   }
+
+  static  getCompany(companyId) {
+    return RequestService.sendGetRequest(`company/${companyId}`);
+  }
 }

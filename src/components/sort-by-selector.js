@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, Picker} from 'react-native';
+
+import Filter from './filter';
 import MovieService from '../services/movie-service';
 
 export default class SortBySelector extends Component {
@@ -8,7 +9,7 @@ export default class SortBySelector extends Component {
 
     this.state = {
       options: this.getOptions(),
-      label: 'Release date grater then'
+      label: 'Sort By'
     };
   }
 
@@ -17,16 +18,11 @@ export default class SortBySelector extends Component {
   }
 
   render() {
-    return(
-      <View>
-        <Text>{this.state.label}</Text>
-        <Picker selectedValue={this.props.value || ''}
-                onValueChange={this.props.onChange}>
-          {this.state.options.map((option, index)  => {
-            return <Picker.Item key={index} label={option.label} value={option.value}/>;
-          })}
-        </Picker>
-      </View>
-    );
+    const {label, options} = this.state;
+    const {onChange, selectedValue} = this.props;
+    return <Filter label={label}
+                   options={options}
+                   selectedValue={selectedValue}
+                   onChange={onChange} />;
   }
 }

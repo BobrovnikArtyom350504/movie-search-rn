@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Modal, TouchableHighlight, Text} from 'react-native';
+import {View, Modal, Button} from 'react-native';
 import MovieService from '../services/movie-service';
 import MovieList from '../components/movie-list';
 import DateFilter from  '../components/date-filter';
@@ -12,17 +12,21 @@ export default class MovieListingPage extends Component {
   constructor(props) {
     super(props);
     this.onNextPage = this.onNextPage.bind(this);
-    this.onFilterChange = this.onFilterChange.bind(this)
+    this.onFilterChange = this.onFilterChange.bind(this);
+    console.log(this.props.navigation);
+    const navigationParams =  this.props.navigation.state.params;
+    const preselectedFilters = (navigationParams && navigationParams.filters) ? navigationParams.filters : {};
     this.state = {
       movies: [],
       pageNumber: 1,
       modalVisible: false,
       filters: {
         'sort_by': null,
-        'release_date.gte': null,
+        'primary_release_date.gte': null,
         'vote_average.gte': null,
         'with_companies': null,
         'with_genres': null,
+        ...preselectedFilters
       },
       refreshing: true
     };
@@ -43,7 +47,6 @@ export default class MovieListingPage extends Component {
 
   onFilterChange(filterName, value) {
     this.setState({refreshing: true});
-
     const selectedFilters = Object.assign({}, this.state.filters, {[filterName]: value});
     const pageNumber = 1;
     this.setState({
@@ -79,34 +82,33 @@ export default class MovieListingPage extends Component {
     const onFilterChange = this.onFilterChange;
     return (
       <View>
-        <SortBySelector value={this.state.filters['sort_by']} 
-                      onChange={(value) => {onFilterChange('sort_by', value)}} />
-       <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text>Show Filteers</Text>
-        </TouchableHighlight>
+        <SortBySelector selectedValue={this.state.filters['sort_by']}
+                        onChange={(value) => {onFilterChange('sort_by', value)}} />
+        <Button onPress={() => {this.setModalVisible(!this.state.modalVisible);}}
+                title={'Show Filters'}
+                color={'#78909C'}>
+        </Button>
         <Modal
           visible={this.state.modalVisible}
-          animationType='slide'>
-          <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text>Hide Modal</Text>
-          </TouchableHighlight>
-          <DateFilter value={this.state.filters['release_date.gte']} 
-                      onChange={(value) => {onFilterChange('release_date.gte', value)}} />
-          <GenreFilter value={this.state.filters['with_genres']} 
-                      onChange={(value) => {onFilterChange('with_genres', value)}} />
-
+          animationType='slide'
+          style={styles.modal}>
+          <DateFilter selectedValue={this.state.filters['primary_release_date.gte']}
+                      style={styles.filter}
+                      onChange={(value) => {onFilterChange('primary_release_date.gte', value)}} />
+          <GenreFilter selectedValue={this.state.filters['with_genres']}
+                       style={styles.filter}
+                       onChange={(value) => {onFilterChange('with_genres', value)}} />
           <CompanySelector selectedValue={this.state.filters['with_companies']}
-                            onChange={(value) => {onFilterChange('with_companies', value)}} />
+                           style={styles.filter}
+                           onChange={(value) => {onFilterChange('with_companies', value)}} />
           <RatingFilter selectedValue={this.state.filters['vote_average.gte']}
-                            onChange={(value) => {onFilterChange('vote_average.gte', value)}} />
+                        style={styles.filter}
+                        onChange={(value) => {onFilterChange('vote_average.gte', value)}} />
+          <Button onPress={() => {this.setModalVisible(!this.state.modalVisible);}}
+                  title={'Ok'}
+                  color={'#78909C'} />
         </Modal>
-         <MovieList movies={this.state.movies}
+        <MovieList movies={this.state.movies}
                    refreshing={this.state.refreshing}
                    navigation={this.props.navigation}
                    onEndReached={this.onNextPage}/>
@@ -114,3 +116,12 @@ export default class MovieListingPage extends Component {
     );
   }
 }
+
+const styles = {
+  modal: {
+    padding: 20
+  },
+  filter: {
+    marginBottom: 60
+  }
+};

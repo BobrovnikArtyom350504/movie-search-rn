@@ -20,16 +20,16 @@ export default class MovieService {
         value: 'popularity.asc' 
       },
       {
-        label: 'popularity.desc',
-        value: 'popularity desc'
+        label: 'popularity desc',
+        value: 'popularity.desc'
       },
       {
-        label: 'release_date.asc',
-        value: 'release date asc'
+        label: 'release date asc',
+        value: 'release_date.asc'
       },
       {
-        label: 'release_date.desc',
-        value: 'release date desc' 
+        label: 'release date desc',
+        value: 'release_date.desc'
       }
     ];
   }
@@ -122,8 +122,17 @@ export default class MovieService {
 
         return null;
       });
-
   }
+  static getCompany(id) {
+    return MovieDatabaseApi.getCompany(id)
+      .then(response => response)
+      .catch(error => {
+        console.log(error);
+
+        return null;
+      });
+  }
+
 
   static decorateMovieList(movies) {
     if (!movies) {
